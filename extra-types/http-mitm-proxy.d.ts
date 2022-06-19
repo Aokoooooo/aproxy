@@ -58,12 +58,69 @@ declare namespace HttpMitmProxy {
       ) => void
     ): void
 
-    //undocumented helpers
+    options: IProxyOptions
+    httpPort: number
+    timeout: number
+    keepAlive: boolean
+    httpAgent: http.Agent
+    httpsAgent: https.Agent
+    forceSNI: boolean
+    httpsPort?: number
+    sslCaDir: string
+  }
+
+  /** signatures for various callback functions */
+  export interface ICallbacks {
+    onError(
+      /**Adds a function to the list of functions to get called if an error occures.
+
+ Arguments
+
+ fn(ctx, err, errorKind) - The function to be called on an error.*/ callback: (
+        context: IContext,
+        err?: Error,
+        errorKind?: string
+      ) => void
+    ): void
+
+    onRequestHeaders(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
+    onResponseHeaders(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
+    /** Adds a function to get called at the beginning of a request.
+
+         Arguments
+
+         fn(ctx, callback) - The function that gets called on each request.
+         Example
+
+         proxy.onRequest(function(ctx, callback) {
+           console.log('REQUEST:', ctx.clientToProxyRequest.url);
+           return callback();
+         }); */
+    onRequest(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
+
+    onRequestData(fcn: (ctx: IContext, chunk: Buffer, callback: (error?: Error, chunk?: Buffer) => void) => void): void
+
+    onRequestEnd(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
+    /** Adds a function to get called at the beginning of the response.
+
+         Arguments
+
+         fn(ctx, callback) - The function that gets called on each response.
+         Example
+
+         proxy.onResponse(function(ctx, callback) {
+           console.log('BEGIN RESPONSE');
+           return callback();
+         }); */
+    onResponse(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
+
+    onResponseData(fcn: (ctx: IContext, chunk: Buffer, callback: (error?: Error, chunk?: Buffer) => void) => void): void
+
+    onResponseEnd(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
+
     onConnect(
       fcn: (req: http.IncomingMessage, socket: net.Socket, head: any, callback: (error?: Error) => void) => void
     ): void
-    onRequestHeaders(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
-    onResponseHeaders(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
     onWebSocketConnection(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
     onWebSocketSend(
       fcn: (
@@ -100,64 +157,6 @@ declare namespace HttpMitmProxy {
         callback: (err: Error | undefined, code: any, message: any) => void
       ) => void
     ): void
-
-    options: IProxyOptions
-    httpPort: number
-    timeout: number
-    keepAlive: boolean
-    httpAgent: http.Agent
-    httpsAgent: https.Agent
-    forceSNI: boolean
-    httpsPort?: number
-    sslCaDir: string
-  }
-
-  /** signatures for various callback functions */
-  export interface ICallbacks {
-    onError(
-      /**Adds a function to the list of functions to get called if an error occures.
-
- Arguments
-
- fn(ctx, err, errorKind) - The function to be called on an error.*/ callback: (
-        context: IContext,
-        err?: Error,
-        errorKind?: string
-      ) => void
-    ): void
-
-    /** Adds a function to get called at the beginning of a request.
-
-         Arguments
-
-         fn(ctx, callback) - The function that gets called on each request.
-         Example
-
-         proxy.onRequest(function(ctx, callback) {
-           console.log('REQUEST:', ctx.clientToProxyRequest.url);
-           return callback();
-         }); */
-    onRequest(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
-
-    onRequestData(fcn: (ctx: IContext, chunk: Buffer, callback: (error?: Error, chunk?: Buffer) => void) => void): void
-
-    onRequestEnd(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
-    /** Adds a function to get called at the beginning of the response.
-
-         Arguments
-
-         fn(ctx, callback) - The function that gets called on each response.
-         Example
-
-         proxy.onResponse(function(ctx, callback) {
-           console.log('BEGIN RESPONSE');
-           return callback();
-         }); */
-    onResponse(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
-
-    onResponseData(fcn: (ctx: IContext, chunk: Buffer, callback: (error?: Error, chunk?: Buffer) => void) => void): void
-
-    onResponseEnd(fcn: (ctx: IContext, callback: (error?: Error) => void) => void): void
 
     /** Adds a module into the proxy. Modules encapsulate multiple life cycle processing functions into one object.
 

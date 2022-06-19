@@ -1,5 +1,5 @@
 import createProxy from 'http-mitm-proxy'
-import { Connection, getConnection } from './connection'
+import { clearConnection, Connection, getConnection } from './connection'
 import { HOME_PATH } from './const'
 
 const proxy = createProxy()
@@ -8,6 +8,7 @@ let isRunning = false
 export const startProxyServer = async (port = 8899) => {
   if (isRunning) {
     proxy.close()
+    clearConnection()
     isRunning = false
   }
 
@@ -64,6 +65,14 @@ export const startProxyServer = async (port = 8899) => {
 
     return cb()
   })
+  proxy.onWebSocketConnection((ctx, cb) => {
+    const connection = new Connection()
+    ctx.tags = {
+      id: connection.id,
+    }
+    return cb()
+  })
+
   proxy.listen({ port, sslCaDir: HOME_PATH }, () => {
     isRunning = true
     console.log(`proxy server start at ${port}`)

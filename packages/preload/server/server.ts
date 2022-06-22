@@ -1,6 +1,6 @@
 import createProxy from 'http-mitm-proxy'
 import { clearConnection, Connection, getConnection } from './connection'
-import { HOME_PATH } from './const'
+import { HOME_PATH } from '../const'
 
 const proxy = createProxy()
 let isRunning = false

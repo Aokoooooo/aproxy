@@ -1,6 +1,6 @@
 import { domReady } from './utils'
 import { useLoading } from './loading'
-import { startProxyServer } from './proxy'
+import { startProxyServer } from './server'
 
 startProxyServer()
 

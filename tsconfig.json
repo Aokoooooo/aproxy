@@ -13,5 +13,10 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["extra-types/*.d.ts", "packages/main/**/*.ts", "packages/preload/**/*.ts"]
+  "include": [
+    "extra-types/*.d.ts",
+    "packages/main/**/*.ts",
+    "packages/preload/**/*.ts",
+    "packages/renderer/src/global.d.ts"
+  ]
 }

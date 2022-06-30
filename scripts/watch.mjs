@@ -50,12 +50,14 @@ function watchPreload(server) {
   return build({
     configFile: 'packages/preload/vite.config.ts',
     mode: 'development',
-    plugins: [{
-      name: 'electron-preload-watcher',
-      writeBundle() {
-        server.ws.send({ type: 'full-reload' })
+    plugins: [
+      {
+        name: 'electron-preload-watcher',
+        writeBundle() {
+          server.ws.send({ type: 'full-reload' })
+        },
       },
-    }],
+    ],
     build: {
       watch: {},
     },

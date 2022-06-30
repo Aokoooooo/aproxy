@@ -1,4 +1,3 @@
-import isTextOrBinary from 'istextorbinary'
 import zlib from 'zlib'
 
 export type HTTPEncodeType = 'gzip' | 'deflate'

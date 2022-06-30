@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import electron from 'vite-plugin-electron/renderer'
 import react from '@vitejs/plugin-react'
-import resolve, { lib2esm } from 'vite-plugin-resolve'
+import resolve from 'vite-plugin-resolve'
 import pkg from '../../package.json'
 
 /**

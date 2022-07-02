@@ -6,6 +6,8 @@ const userData = app.getPath('appData')
 
 export const HOME_PATH = join(userData, 'aproxy')
 
+export const DATA_PATH = join(HOME_PATH, 'data')
+
 export const CERT_DIR_PATH = join(HOME_PATH, 'cert')
 export const CERT_FILE_NAME = 'root.pem'
 export const CERT_KEY_FILE_NAME = 'root.key'

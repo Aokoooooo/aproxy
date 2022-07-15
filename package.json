@@ -8,9 +8,8 @@
   "license": "MIT",
   "main": "dist/main/index.cjs",
   "scripts": {
-    "start": "npm run build:plugin && node scripts/watch.mjs",
-    "build": "npm run build:plugin && tsc --noEmit -p packages/renderer/tsconfig.json && node scripts/build.mjs && electron-builder",
-    "build:plugin": "tsc -p packages/plugin/whistle.aoko/tsconfig.json && cp packages/plugin/whistle.aoko/package.json dist/plugin/whistle.aoko/package.json"
+    "start": "node scripts/watch.mjs",
+    "build": "tsc --noEmit -p packages/renderer/tsconfig.json && node scripts/build.mjs && electron-builder"
   },
   "engines": {
     "node": ">=14.17.0"
@@ -21,8 +20,7 @@
     "electron-window-state": "^5.0.3",
     "fs-extra-promise": "^1.0.1",
     "node-forge": "^1.3.1",
-    "uuid": "^8.3.2",
-    "whistle": "^2.9.23"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/fs-extra-promise": "^1.0.10",
